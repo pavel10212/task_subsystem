@@ -1,0 +1,49 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Task {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  indexId      Int?      @unique
+  title        String
+  description  String?
+  assigneeName String?
+  status       String?   @default("Assigned")
+  user         User?     @relation(fields: [userId], references: [id])
+  userId       String?   @db.ObjectId
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  dueDate      DateTime?
+  completedAt  DateTime?
+}
+
+model User {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  name           String?
+  email          String?   @unique
+  password       String?   @map("password")
+  assignedTasks  Int?      @default(0)
+  completedTasks Int?      @default(0)
+  image          String?
+  taskLoad       Int?      @default(0)
+  role           String?
+  sessions       Session[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  Task           Task[]
+}
+
+model Session {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionToken String   @unique
+  userId       String   @db.ObjectId
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
