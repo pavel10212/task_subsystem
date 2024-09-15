@@ -18,16 +18,10 @@ const Page = () => {
     const [role, setRole] = useState("");
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [taskLoad, setTaskLoad] = useState(0);
     const router = useRouter();
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Form submitted");
-        console.log("Name:", name);
-        console.log("Email:", email);
-        console.log("Password:", password);
-        console.log("Confirm Password:", confirmPassword);
-        console.log("Role:", role);
-
         setErrors({});
         setIsSubmitting(true);
 
@@ -56,7 +50,7 @@ const Page = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({name, email, password, role}),
+                body: JSON.stringify({name, email, password, role, taskLoad}),
             });
 
             if (response.ok) {
@@ -213,6 +207,31 @@ const Page = () => {
                                 </p>
                             )}
                         </div>
+
+                        <div>
+                            <label
+                                htmlFor="taskLimit"
+                                className="block text-sm font-medium text-gray-700"
+                            >
+                                Task Limit
+                            </label>
+                            <div className="mt-1">
+                                <input
+                                    id="taskLimit"
+                                    name="taskLimit"
+                                    type="number"
+                                    required
+                                    placeholder="How many tasks can you do at a time?"
+                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition duration-150 ease-in-out"
+                                    value={taskLoad}
+                                    onChange={(e) => setTaskLoad(e.target.value)}
+                                />
+                            </div>
+                            {errors.taskLimit && (
+                                <p className="mt-2 text-sm text-red-600">{errors.taskLimit}</p>
+                            )}
+                        </div>
+
 
                         <div>
                             <label
