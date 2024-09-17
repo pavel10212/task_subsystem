@@ -53,6 +53,8 @@ const Page = () => {
             : currentTask.userId;
         const rawDueDate = e.target.dueDate ? e.target.dueDate.value : currentTask.dueDate;
         const dueDate = new Date(rawDueDate).toISOString();
+        const priority = e.target.priority ? e.target.priority.value : currentTask.priority;
+
 
         if (isEditMode) {
             await fetch("/api/updateTask", {
@@ -64,6 +66,7 @@ const Page = () => {
                     userId: assignedTo,
                     status: taskStatus,
                     dueDate: dueDate,
+                    priority: priority,
                 }),
                 headers: {"Content-Type": "application/json"},
             });
@@ -82,6 +85,7 @@ const Page = () => {
                     description: taskDescription,
                     userId: assignedTo,
                     dueDate: dueDate,
+                    priority: priority,
                 }),
                 headers: {"Content-Type": "application/json"},
             });

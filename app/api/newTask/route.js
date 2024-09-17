@@ -16,7 +16,8 @@ export async function POST(req) {
                 description: body.description,
                 userId: body.userId,
                 assigneeName: user.name,
-                dueDate: body.dueDate
+                dueDate: body.dueDate,
+                priority: body.priority,
             }
         });
 

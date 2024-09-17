@@ -1,4 +1,4 @@
-import {hash} from "bcryptjs";
+import { hash } from "bcryptjs";
 import prisma from "@/lib/prisma";
 import {NextResponse} from "next/server";
 
@@ -6,7 +6,6 @@ export async function POST(req) {
     try {
         const body = await req.json();
         const {name, email, password, role, taskLoad} = body;
-
 
         const hashedPassword = await hash(password, 10);
 

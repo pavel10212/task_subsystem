@@ -28,7 +28,8 @@ export async function PUT(req) {
                 description: body.description,
                 userId: body.userId,
                 status: body.status,
-                dueDate: body.dueDate
+                dueDate: body.dueDate,
+                priority: body.priority
             }
         })
         return NextResponse.json({message: 'Task updated successfully'}, {status: 200})
