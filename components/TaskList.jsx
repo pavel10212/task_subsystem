@@ -59,7 +59,7 @@ const TaskList = ({tasks, onEdit, onDelete, isAdmin, users}) => {
                         <td className="py-3 px-4 text-gray-600">{formatDate(task.dueDate)}</td>
                         <td className="py-3 px-4">
                                 <span
-                                    className="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800 border border-blue-300">
+                                    className="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800 border border-blue-300 whitespace-nowrap">
                                     {task.status}
                                 </span>
                         </td>
