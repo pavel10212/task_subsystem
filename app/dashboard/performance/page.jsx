@@ -98,22 +98,23 @@ const PerformanceAnalytics = () => {
             type: "number",
         },
         {field: "lateTasks", headerName: "Late Tasks", width: 130, type: "number"},
-        {field: "userTaskLoad", headerName: "User Task Load", width: 150, type: "number"},
+        {field: "userTaskLoad", headerName: "User Task Load (%)", width: 150, type: "number"},
+        {field: "maxUserLoad", headerName: "Max Concurrent Tasks", width: 200, type: "number"}
     ];
 
     const rows = users.map((user) => {
         const userTasks = tasks.filter((task) => task.userId === user.id);
         const completedTasksCount = userTasks.filter((task) => task.status === "Completed").length;
-
         return {
             id: user.id,
             name: user.name,
             assignedTasks: userTasks.length,
             completedTasks: completedTasksCount,
             taskCompletionRate: calculateTaskCompletionRate(userTasks),
-            averageTaskCompletionTime: calculateAverageTaskDuration(userTasks) ? calculateAverageTaskDuration(userTasks) < 0 : 0,
+            averageTaskCompletionTime: calculateAverageTaskDuration(userTasks) < 0.1 ? 0 : calculateAverageTaskDuration(userTasks),
             lateTasks: late_tasks(userTasks),
-            userTaskLoad: currentUserTaskLoad(userTasks),
+            userTaskLoad: currentUserTaskLoad(userTasks, user.taskLoad),
+            maxUserLoad: user.taskLoad
         };
     });
 

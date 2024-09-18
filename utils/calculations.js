@@ -26,9 +26,9 @@ export function late_tasks(tasks) {
     return lateTasks.length;
 }
 
-export function currentUserTaskLoad(tasks) {
+export function currentUserTaskLoad(tasks, taskLoad) {
     if (tasks.length === 0) return 0;
     const notFinishedTasks = tasks.filter((task) => task.status !== 'Completed').length;
-    return (notFinishedTasks / tasks.length) * 100;
+    return (notFinishedTasks / taskLoad) * 100;
 }
 

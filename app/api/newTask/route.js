@@ -12,6 +12,13 @@ export async function POST(req) {
             body.completedAt = new Date();
         }
 
+        const unfinishedTasks = user.assignedTasks - user.completedTasks;
+
+        if ((unfinishedTasks + 1) > user.taskLoad) {
+            return NextResponse.json({message: 'User task load is full'}, {status: 400});
+        }
+
+
         await prisma.task.create({
             data: {
                 indexId: body.indexId,

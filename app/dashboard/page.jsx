@@ -9,6 +9,7 @@ import {signOut} from "next-auth/react";
 import TaskList from "@/components/TaskList";
 import UserInfoIcon from "@/components/UserInfoIcon";
 import TaskForm from "@/components/TaskForm";
+import {toast, Bounce} from "react-toastify";
 
 const Page = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -70,6 +71,16 @@ const Page = () => {
                 }),
                 headers: {"Content-Type": "application/json"},
             });
+            toast.success("Task updated successfully", {
+                transition: Bounce,
+                autoClose: 5000,
+                position: "bottom-right",
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
             closeModal();
             await fetchTasks();
         } else {
@@ -91,7 +102,29 @@ const Page = () => {
                 headers: {"Content-Type": "application/json"},
             });
             const data = await response.json();
-            console.log(data.message);
+            if (!response.ok) {
+                toast.error(data.message, {
+                    transition: Bounce,
+                    autoClose: 5000,
+                    position: "bottom-right",
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+                return;
+            }
+            toast.success(data.message, {
+                transition: Bounce,
+                autoClose: 5000,
+                position: "bottom-right",
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
             closeModal();
             await fetchTasks();
         }
