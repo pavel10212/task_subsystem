@@ -1,28 +1,28 @@
 "use client";
 
-import {useState, useEffect, useCallback} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {motion} from "framer-motion";
 import Link from "next/link";
 import {FaArrowLeft} from "react-icons/fa";
 import {DataGrid} from "@mui/x-data-grid";
 import {
-    LineChart,
+    CartesianGrid,
+    Cell,
+    Legend,
     Line,
+    LineChart,
+    Pie,
+    PieChart,
+    ResponsiveContainer,
+    Tooltip,
     XAxis,
     YAxis,
-    CartesianGrid,
-    Tooltip,
-    Legend,
-    ResponsiveContainer,
-    PieChart,
-    Pie,
-    Cell,
 } from "recharts";
 import {
-    calculateTaskCompletionRate,
     calculateAverageTaskDuration,
-    late_tasks,
+    calculateTaskCompletionRate,
     currentUserTaskLoad,
+    late_tasks,
 } from "@/utils/calculations";
 
 const PerformanceAnalytics = () => {
@@ -88,7 +88,7 @@ const PerformanceAnalytics = () => {
         {
             field: "taskCompletionRate",
             headerName: "Task Completion Rate (%)",
-            width: 180,
+            width: 200,
             type: "number",
         },
         {
@@ -101,29 +101,30 @@ const PerformanceAnalytics = () => {
         {field: "userTaskLoad", headerName: "User Task Load", width: 150, type: "number"},
     ];
 
- const rows = users.map((user) => {
-    const userTasks = tasks.filter((task) => task.userId === user.id);
-    const completedTasksCount = userTasks.filter((task) => task.status === "Completed").length;
+    const rows = users.map((user) => {
+        const userTasks = tasks.filter((task) => task.userId === user.id);
+        const completedTasksCount = userTasks.filter((task) => task.status === "Completed").length;
 
-    return {
-      id: user.id,
-      name: user.name,
-      assignedTasks: userTasks.length,
-      completedTasks: completedTasksCount,
-      taskCompletionRate: calculateTaskCompletionRate(userTasks),
-      averageTaskCompletionTime: calculateAverageTaskDuration(userTasks),
-      lateTasks: late_tasks(userTasks),
-      userTaskLoad: currentUserTaskLoad(userTasks),
-    };
-  });
+        return {
+            id: user.id,
+            name: user.name,
+            assignedTasks: userTasks.length,
+            completedTasks: completedTasksCount,
+            taskCompletionRate: calculateTaskCompletionRate(userTasks),
+            averageTaskCompletionTime: calculateAverageTaskDuration(userTasks) ? calculateAverageTaskDuration(userTasks) < 0 : 0,
+            lateTasks: late_tasks(userTasks),
+            userTaskLoad: currentUserTaskLoad(userTasks),
+        };
+    });
 
-  const totalAssignedTasks = rows.reduce((sum, row) => sum + row.assignedTasks, 0);
-  const totalCompletedTasks = rows.reduce((sum, row) => sum + row.completedTasks, 0);
-  const overallCompletionRate = totalAssignedTasks > 0
-    ? (totalCompletedTasks / totalAssignedTasks) * 100
-    : 0;
+    const totalAssignedTasks = rows.reduce((sum, row) => sum + row.assignedTasks, 0);
+    const totalCompletedTasks = rows.reduce((sum, row) => sum + row.completedTasks, 0);
+    const overallCompletionRate = totalAssignedTasks > 0
+        ? (totalCompletedTasks / totalAssignedTasks) * 100
+        : 0;
 
-  const overallAverageCompletionTime = rows.reduce((sum, row) => sum + row.averageTaskCompletionTime, 0) / rows.length;    const pieChartData = [
+    const overallAverageCompletionTime = rows.reduce((sum, row) => sum + row.averageTaskCompletionTime, 0) / rows.length;
+    const pieChartData = [
         {name: "Completed", value: rows.reduce((sum, row) => sum + row.completedTasks, 0)},
         {name: "Pending", value: rows.reduce((sum, row) => sum + (row.assignedTasks - row.completedTasks), 0)},
     ];

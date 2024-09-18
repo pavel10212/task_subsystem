@@ -1,8 +1,8 @@
 "use client";
 
-import {useState, useEffect} from "react";
-import {motion, AnimatePresence} from "framer-motion";
-import {FaPlus, FaChartLine} from "react-icons/fa";
+import {useEffect, useState} from "react";
+import {AnimatePresence, motion} from "framer-motion";
+import {FaChartLine, FaPlus} from "react-icons/fa";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
 import {signOut} from "next-auth/react";
@@ -84,6 +84,7 @@ const Page = () => {
                     title: taskName,
                     description: taskDescription,
                     userId: assignedTo,
+                    status: taskStatus,
                     dueDate: dueDate,
                     priority: priority,
                 }),

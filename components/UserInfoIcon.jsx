@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion';
-import { FaUser, FaSignOutAlt } from 'react-icons/fa';
+import {motion} from 'framer-motion';
+import {FaSignOutAlt, FaUser} from 'react-icons/fa';
 
 const UserInfoIcon = ({ userName, userRole, onLogout }) => {
   return (

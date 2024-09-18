@@ -8,6 +8,9 @@ export async function POST(req) {
             where: {id: body.userId}
         });
 
+        if (body.status === 'Completed') {
+            body.completedAt = new Date();
+        }
 
         await prisma.task.create({
             data: {
@@ -16,8 +19,10 @@ export async function POST(req) {
                 description: body.description,
                 userId: body.userId,
                 assigneeName: user.name,
+                status: body.status,
                 dueDate: body.dueDate,
                 priority: body.priority,
+                completedAt: body.completedAt
             }
         });
 

@@ -5,7 +5,7 @@ import Link from "next/link";
 import {z} from "zod";
 import {motion} from "framer-motion";
 import Image from "next/image";
-import {toast, Bounce} from "react-toastify";
+import {Bounce, toast} from "react-toastify";
 import {useRouter} from "next/navigation";
 
 const emailSchema = z.string().email("Invalid email address");

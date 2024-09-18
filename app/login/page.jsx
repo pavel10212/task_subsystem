@@ -7,7 +7,7 @@ import {useRouter} from "next/navigation";
 import {z} from "zod";
 import {motion} from "framer-motion";
 import Link from "next/link";
-import {toast, Bounce} from "react-toastify";
+import {Bounce, toast} from "react-toastify";
 
 const loginSchema = z.object({
     email: z.string().email({message: "Invalid email address"}),
