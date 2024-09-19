@@ -111,7 +111,7 @@ const PerformanceAnalytics = () => {
             assignedTasks: userTasks.length,
             completedTasks: completedTasksCount,
             taskCompletionRate: calculateTaskCompletionRate(userTasks),
-            averageTaskCompletionTime: calculateAverageTaskDuration(userTasks) < 0.1 ? 0 : calculateAverageTaskDuration(userTasks),
+            averageTaskCompletionTime: calculateAverageTaskDuration(userTasks) < 0.001 ? 0 : calculateAverageTaskDuration(userTasks),
             lateTasks: late_tasks(userTasks),
             userTaskLoad: currentUserTaskLoad(userTasks, user.taskLoad),
             maxUserLoad: user.taskLoad
@@ -124,7 +124,9 @@ const PerformanceAnalytics = () => {
         ? (totalCompletedTasks / totalAssignedTasks) * 100
         : 0;
 
-    const overallAverageCompletionTime = rows.reduce((sum, row) => sum + row.averageTaskCompletionTime, 0) / rows.length;
+    const overallAverageCompletionTime = rows.reduce((sum, row) => {
+    return row.completedTasks > 0 ? sum + row.averageTaskCompletionTime : sum;
+}, 0) / rows.filter(row => row.completedTasks > 0).length;
     const pieChartData = [
         {name: "Completed", value: rows.reduce((sum, row) => sum + row.completedTasks, 0)},
         {name: "Pending", value: rows.reduce((sum, row) => sum + (row.assignedTasks - row.completedTasks), 0)},

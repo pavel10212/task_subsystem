@@ -31,4 +31,3 @@ export function currentUserTaskLoad(tasks, taskLoad) {
     const notFinishedTasks = tasks.filter((task) => task.status !== 'Completed').length;
     return (notFinishedTasks / taskLoad) * 100;
 }
-

@@ -178,8 +178,8 @@ const Page = () => {
 
     const handleLogout = async () => {
         try {
-            await signOut({redirect: false, callbackUrl: "/login"});
-            router.push("/login");
+            await signOut({redirect: false});
+            router.push('/login');
         } catch (error) {
             console.error("Error logging out:", error);
         }

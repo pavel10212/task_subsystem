@@ -4,13 +4,11 @@ import {auth} from "@/auth";
 
 export async function GET() {
     const session = await auth()
-
     const user = await prisma.user.findFirst({
         where: {
             email: session.user.email
         }
     })
-
     if (user.role !== "Admin") {
         const tasks = await prisma.task.findMany(
             {
@@ -34,7 +32,6 @@ export async function GET() {
         );
         return NextResponse.json(tasks);
     }
-
     const tasks = await prisma.task.findMany(
         {
             select: {
